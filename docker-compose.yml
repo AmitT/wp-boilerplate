@@ -17,15 +17,25 @@ services:
       - ./wp-content:/var/www/html/wp-content
     depends_on:
       - db
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
 
   db:
     container_name: ${PROJECT_NAME}_db
-    image: mysql:5.7
+    image: mariadb:lts
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: ${PROJECT_DB_NAME}
-      MYSQL_USER: ${PROJECT_DB_USER}
-      MYSQL_PASSWORD: ${PROJECT_DB_PASSWORD}
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MARIADB_DATABASE: ${PROJECT_DB_NAME}
+      MARIADB_USER: ${PROJECT_DB_USER}
+      MARIADB_PASSWORD: ${PROJECT_DB_PASSWORD}
+      MARIADB_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - ./db-volume:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
